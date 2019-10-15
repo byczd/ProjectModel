@@ -1,0 +1,38 @@
+//
+//  ProjectModel.pch
+//  ProjectModel
+//
+//  Created by 黄龙 on 2019/10/14.
+//  Copyright © 2019年 adong. All rights reserved.
+//
+
+#ifndef ProjectModel_pch
+#define ProjectModel_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef DEBUG
+    #define debugLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+    #define debugLog(format, ...)
+#endif
+
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+#import "Masonry.h"
+
+#import "customDefine.h"
+#import "MJBugDefines.h"
+#import "CustomBase64.h"
+#import "clsCommonFunc.h"
+
+
+#import "NSString+Utilities.h"
+#import "NSData+json.h"
+#import "NSDictionary+json.h"
+#import "NSArray+json.h"
+
+#endif /* ProjectModel_pch */

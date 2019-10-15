@@ -1,0 +1,6 @@
+framework module Pods_ProjectModel {
+  umbrella header "Pods-ProjectModel-umbrella.h"
+
+  export *
+  module * { export * }
+}

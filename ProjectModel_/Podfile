@@ -1,0 +1,33 @@
+# Uncomment the next line to define a global platform for your project
+
+platform :ios, '9.0'
+
+target 'ProjectModel' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for ProjectModel
+
+# pod 'AFNetworking' (nouse)
+# pod 'ASIHTTPRequest' (nouse)
+pod 'Masonry'
+pod 'MBProgressHUD'
+pod 'MJExtension'
+pod 'MJRefresh'
+pod 'GTMBase64'
+pod 'SDWebImage'
+pod 'JPush'
+pod 'UMCCommon'
+pod 'UMCAnalytics'
+
+  target 'ProjectModelTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'ProjectModelUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

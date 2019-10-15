@@ -1,0 +1,112 @@
+//
+//  NSString+Utilities.m
+//  HuiBeauty
+//
+//  Created by darren on 14-9-25.
+//  Copyright (c) 2014年 Beijing CHSY E-Business Co.,LTD. All rights reserved.
+//
+
+#import "NSString+Utilities.h"
+
+@implementation NSString (Utilities)
+
+- (BOOL)isNotEmpty
+{
+    return self && [self length] > 0 ;
+}
+
+
+- (BOOL)contains:(NSString*)string {
+    return [self rangeOfString:string].location != NSNotFound;
+}
+
+#define MaxEmailLength 254
+- (BOOL)isValidEmail
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    BOOL validEmail = [emailTest evaluateWithObject:self];
+    if(validEmail && self.length <= MaxEmailLength)
+        return YES;
+    return NO;
+}
+
+- (BOOL)containsOnlyLetters
+{
+    NSCharacterSet *blockedCharacters = [[NSCharacterSet letterCharacterSet] invertedSet];
+    return ([self rangeOfCharacterFromSet:blockedCharacters].location == NSNotFound);
+}
+
+- (BOOL)isValidPhoneNo
+{
+    static NSString *tempStr = @"^((\\+86)?|\\(\\+86\\))0?1[34578]\\d{9}$";
+    NSRegularExpression *regularexpression = [[NSRegularExpression alloc]initWithPattern:tempStr options:NSRegularExpressionCaseInsensitive error:nil];
+    NSUInteger numberofMatch = [regularexpression numberOfMatchesInString:self options:NSMatchingReportProgress range:NSMakeRange(0, self.length)];
+    
+    return numberofMatch > 0;
+}
+
+- (BOOL)containsOnlyNumbers
+{
+    NSCharacterSet *numbers = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+    return ([self rangeOfCharacterFromSet:numbers].location == NSNotFound);
+}
+
+- (NSString*)stringByRemovingPrefix:(NSString*)prefix
+{
+    NSRange range = [self rangeOfString:prefix];
+    if(range.location == 0) {
+        return [self stringByReplacingCharactersInRange:range withString:@""];
+    }
+    return self;
+}
+
+- (NSString*)trim
+{
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+- (NSString *)urlEncode
+{
+    NSString* encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                  NULL,
+                                                                                  (CFStringRef) self,
+                                                                                  NULL,
+                                                                                  (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                  kCFStringEncodingUTF8 ));
+    return encodedString;
+}
+
+-(NSAttributedString *)selfFont:(int)sfont
+                      selfColor:(UIColor *)selfColor
+                      LightText:(NSString *)text
+                      LightFont:(int)lfont
+                     LightColor:(UIColor *)lightColor
+{
+    //NSString *temp = [NSString stringWithFormat:@"已逾期%d天",lastDays];
+    
+    NSString *temp = self;
+    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:temp];
+    if ([text isKindOfClass:[NSNull class]] || text == nil) {
+        return attributeStr;
+    }
+    NSRange range = [self rangeOfString:text];
+    
+    
+    
+    
+    [attributeStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:sfont] range:NSMakeRange(0,self.length)];
+    
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:selfColor range:NSMakeRange(0,self.length)];
+    
+    [attributeStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:lfont] range:NSMakeRange(range.location,range.length)];
+    
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:lightColor range:NSMakeRange(range.location,range.length)];
+    
+    
+    
+    
+    
+    return attributeStr;
+}
+@end
